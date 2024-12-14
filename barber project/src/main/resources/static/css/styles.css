@@ -1,0 +1,36 @@
+/* Custom Styles for the login page */
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 3rem;
+}
+
+h3 {
+    color: #343a40;
+    font-weight: bold;
+}
+
+form .btn {
+    width: 100%;
+}
+
+.alert {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
