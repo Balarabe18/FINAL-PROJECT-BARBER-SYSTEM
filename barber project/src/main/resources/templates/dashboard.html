@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        a.nolink {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="d-flex" id="dashboardWrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-dark text-light vh-100 p-3">
+            <a href="/" class="nolink">
+                <h3 class="text-center mb-4">Dashboard</h3>
+            </a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="overview">Overview</a>
+                </li>
+                <li class="nav-item" th:if="${isCustomer || isBarber}">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="appointments">Appointments</a>
+                </li>
+                <li class="nav-item" th:if="${isCustomer}">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="book-appointment">Book
+                        Appointments</a>
+                </li>
+                <li class="nav-item" th:if="${isAdmin}">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="manage-barbers">Manage Barbers</a>
+                </li>
+                <!-- <li class="nav-item" th:if="${isAdmin}">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="users">Users</a>
+                </li> -->
+                <li class="nav-item" th:if="${isCustomer || isBarber}">
+                    <a href="#" class="nav-link text-light nav-link-2" data-section="history">History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link text-light ">Logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 id="pageTitle">Welcome to the Dashboard</h3>
+                <button class="btn btn-primary d-md-none" id="toggleSidebar">☰</button>
+            </div>
+            <hr>
+            <div id="content">
+                <div id="overview" class="content-section d-none {{ activeSection == 'overview' ? '' : '' }}">
+                    <h2>Overview</h2>
+                    <p>Summary of activities.</p>
+
+                </div>
+                <div id="appointments" class="content-section d-none {{ activeSection == 'appointments' ? '' : '' }}">
+                    <h2 th:if="${isCustomer}">My Appointments</h2>
+                    <h2 th:if="${isBarber}">Appointments</h2>
+                    <p th:if="${isCustomer}">Manage your appointments here.</p>
+                    <p th:if="${isBarber}">Manage your appointments here.</p>
+
+                    <div th:if="${success}" th:text="${success}" class="alert alert-success"></div>
+                    <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th th:if="${isCustomer}">Barber</th>
+                                <th th:if="${isBarber}">Customer</th>
+                                <th>Date and Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="appointment : ${appointments}" th:if="${appointment.status == 'pending'}">
+                                <td th:if="${isCustomer}" th:text="${appointment.barber.username}">Barber</td>
+                                <td th:if="${isBarber}" th:text="${appointment.customer.username}">Customer</td>
+                                <td th:text="${appointment.dateTime}">Date and Time</td>
+                                <td th:text="${appointment.status}">Status</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#rescheduleModal"
+                                            th:attr="data-appointment-id=${appointment.id}">Reschedule</button>
+
+                                        <form th:if="${isBarber}" action="/customer/appointments/confirm" method="post">
+                                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                            <button type="submit" class="btn btn-success">Confirm</button>
+                                        </form>
+
+                                        <form th:if="${isCustomer}" action="/customer/appointments/cancel"
+                                            method="post">
+                                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+                <!-- Reschedule Modal -->
+                <div class="modal fade" id="rescheduleModal" tabindex="-1" aria-labelledby="rescheduleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="rescheduleModalLabel">Reschedule Appointment</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/customer/appointments/reschedule" method="post">
+                                    <input type="hidden" id="appointment-id" name="appointmentId">
+                                    <div class="mb-3">
+                                        <label for="dateTime" class="form-label">Choose a new Date and Time:</label>
+                                        <input type="datetime-local" id="dateTime" name="dateTime" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Reschedule</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="book-appointment"
+                    class="content-section d-none {{ activeSection == 'book-appointment' ? '' : '' }}">
+                    <h2>Book Appointment</h2>
+                    <p>Book Appointment with barbers</p>
+                    <form action="/customer/appointments/book" method="post">
+                        <div class="mb-3">
+                            <label for="barber" class="form-label">Choose a Barber:</label>
+                            <select id="barber" name="barberId" class="form-select">
+                                <option value="">Select a Barber</option>
+                                <option th:each="barber : ${barbers}" th:value="${barber.id}"
+                                    th:text="${barber.username}">Barber</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateTime" class="form-label">Choose a Date and Time:</label>
+                            <input type="datetime-local" id="dateTime" name="dateTime" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Book Appointment</button>
+                    </form>
+                    <div>
+                        <p th:if="${success}" th:text="${success}" class="alert alert-success"></p>
+                        <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
+                    </div>
+
+                </div>
+
+                <div id="manage-barbers"
+                    class="content-section d-none {{ activeSection == 'manage-barbers' ? '' : '' }}">
+
+                    <div>
+                        <p th:if="${success}" th:text="${success}" class="alert alert-success"></p>
+                        <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4>Existing Barbers</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="barber : ${barbers}">
+                                    <td th:text="${barber.username}"></td>
+                                    <td th:text="${barber.email}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h4>Add a New Barber</h4>
+                    <form action="/admin/barbers/add" method="post" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="hidden" name="section" value="manage-barbers">
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Add Barber</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="users" class="content-section d-none {{ activeSection == 'users' ? '' : '' }}">
+                    <h2>Users</h2>
+                    <p>Manage all users in the system.</p>
+                </div>
+                <div id="history" class="content-section d-none {{ activeSection == 'history' ? '' : '' }}">
+                    <h2>History</h2>
+                    <p>View historical data.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th th:if="${isCustomer}">Barber</th>
+                                <th th:if="${isBarber}">Customer</th>
+                                <th>Date and Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="appointment : ${appointments}" th:if="${appointment.status == 'completed'}">
+                                <td th:if="${isCustomer}" th:text="${appointment.barber.username}">Barber</td>
+                                <td th:if="${isBarber}" th:text="${appointment.customer.username}">Customer</td>
+                                <td th:text="${appointment.dateTime}">Date and Time</td>
+                                <td th:text="${appointment.status}">Status</td>
+                            </tr>
+                            <tr th:each="appointment : ${appointments}" th:if="${appointment.status == 'cancelled'}">
+                                <td th:if="${isCustomer}" th:text="${appointment.barber.username}">Barber</td>
+                                <td th:if="${isBarber}" th:text="${appointment.customer.username}">Customer</td>
+                                <td th:text="${appointment.dateTime}">Date and Time</td>
+                                <td th:text="${appointment.status}">Status</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll("#sidebar .nav-link-2");
+            const sections = document.querySelectorAll(".content-section");
+            const pageTitle = document.getElementById("pageTitle");
+
+            sections.forEach(section => section.classList.add("d-none"));
+
+            links.forEach(link => {
+                link.addEventListener("click", event => {
+                    event.preventDefault();
+                    const targetSection = link.getAttribute("data-section");
+                    sections.forEach(section => section.classList.add("d-none"));
+                    document.getElementById(targetSection).classList.remove("d-none");
+                    pageTitle.textContent = link.textContent;
+                    window.history.pushState({}, '', `?section=${targetSection}`);
+                });
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const sectionParam = urlParams.get('section');
+
+            if (sectionParam) {
+                const targetSection = sectionParam;
+                sections.forEach(section => section.classList.add("d-none"));
+                document.getElementById(targetSection).classList.remove("d-none");
+                pageTitle.textContent = document.querySelector(`[data-section="${targetSection}"]`).textContent;
+            } else {
+                sections.forEach((section, index) => {
+                    if (index === 0) {
+                        section.classList.remove("d-none");
+                        pageTitle.textContent = links[0].textContent;
+                    }
+                });
+            }
+        });
+
+    </script>
+    <script>
+        var rescheduleModal = document.getElementById('rescheduleModal');
+        rescheduleModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var appointmentId = button.getAttribute('data-appointment-id');
+            var modalBodyInput = rescheduleModal.querySelector('.modal-body input');
+            modalBodyInput.value = appointmentId;
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+<!-- <div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 id="pageTitle">Welcome to the Dashboard</h3>
+        <button class="btn btn-primary d-md-none" id="toggleSidebar">☰</button>
+    </div>
+    <hr>
+
+    <div id="content">
+       
+        <div id="overview" class="content-section {{ activeSection == 'overview' ? '' : 'd-none' }}">
+            <h2>Overview</h2>
+            <p>Summary of activities.</p>
+        </div>
+        <div id="appointments" class="content-section {{ activeSection == 'appointments' ? '' : 'd-none' }}">
+            <h2>Appointments</h2>
+            <p>Manage your appointments here.</p>
+        </div>
+        <div id="book-appointment" class="content-section {{ activeSection == 'book-appointment' ? '' : 'd-none' }}">
+            <h2>Book Apointment</h2>
+            <p>Book Appointment with barbers</p>
+        </div>
+
+        <div id="manage-barbers" class="content-section {{ activeSection == 'manage-barbers' ? '' : 'd-none' }}">
+           
+            <div>
+                <p th:if="${success}" th:text="${success}" class="alert alert-success"></p>
+                <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
+            </div>
+            
+            <div class="mb-4">
+                <h4>Existing Barbers</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="barber : ${barbers}">
+                            <td th:text="${barber.username}"></td>
+                            <td th:text="${barber.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+           
+            <h4>Add a New Barber</h4>
+            <form action="/admin/barbers/add" method="post" class="row g-3">
+                <div class="col-md-4">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="hidden" name="section" value="manage-barbers">
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Add Barber</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="users" class="content-section {{ activeSection == 'users' ? '' : 'd-none' }}">
+            <h2>Users</h2>
+            <p>Manage all users in the system.</p>
+        </div>
+        <div id="history" class="content-section {{ activeSection == 'history' ? '' : 'd-none' }}">
+            <h2>History</h2>
+            <p>View historical data.</p>
+        </div>
+    </div>
+</div> -->

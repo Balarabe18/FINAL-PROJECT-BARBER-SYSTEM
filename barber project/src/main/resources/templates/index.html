@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Basic -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Mobile Metas -->
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- Site Metas -->
+<title>SMBarber - Responsive HTML5 Template</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon" />
+<link rel="apple-touch-icon" th:href="@{/images/apple-touch-icon.png}">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+
+<!-- Site CSS -->
+<link rel="stylesheet" th:href="@{css/style.css}">
+
+<!-- Colors CSS -->
+<link rel="stylesheet" th:href="@{/css/colors.css}">
+
+<!-- ALL VERSION CSS -->
+<link rel="stylesheet" th:href="@{/css/versions.css}">
+
+<!-- Responsive CSS -->
+<link rel="stylesheet" th:href="@{/css/responsive.css}">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" th:href="@{/css/custom.css}">
+
+
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="barber_version">
+
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="cube-wrapper">
+            <div class="cube-folding">
+                <span class="leaf1"></span>
+                <span class="leaf2"></span>
+                <span class="leaf3"></span>
+                <span class="leaf4"></span>
+            </div>
+            <span class="loading" data-name="Loading">SMBarber Loading</span>
+        </div>
+    </div><!-- end loader -->
+    <!-- END LOADER -->
+
+    <div id="wrapper">
+
+        <!-- Sidebar-wrapper -->
+        <div id="sidebar-wrapper">
+            <div class="side-top">
+                <div class="logo-sidebar">
+                    <a href="/"><img src="/images/logos/logo.png" alt="image"></a>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a class="active" href="/">Home</a></li>
+                    <li><a href="/hair-styles">Hair Gallery</a></li>
+                    <li><a href="#jokes">Daily Jokes</a></li>
+                    <!-- <li><a href="/dashboard">Our Services</a></li> -->
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <a href="#menu-toggle" class="menuopener" id="menu-toggle"><i class="fa fa-bars"></i></a>
+
+            <div id="home" class="parallax first-section" data-stellar-background-ratio="0.4"
+                style="background-image:url('/uploads/barber_slider.jpg');">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="full-width" class="owl-carousel owl-theme">
+                            <div class="text-center item">
+                                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                                    <div class="big-tagline text-center">
+                                        <h2><strong>The Barber Shop</strong><br>Where Style Meets Convenience</h2>
+                                        <p class="lead">Easily book your next grooming session and let our expert barbers craft the perfect look for you. Whether it’s your first cut or your regular appointment, we’ve got you covered.</p>
+                                        <a href="/login"
+                                            class="btn btn-light btn-radius btn-brd grd1 effect-1 butn">APPOINTMENT
+                                            NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center item">
+                                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                                    <div class="big-tagline text-center">
+                                        <h2><strong>The Barber Shop</strong><br>Where Style Meets Convenience</h2>
+                                        <p class="lead">Step into a world where every haircut is a masterpiece. Schedule your appointment now and trust our professional barbers to elevate your style with precision and care. Your perfect look is just a booking away</p>
+                                        <a href="/login"
+                                            class="btn btn-light btn-radius btn-brd grd1 effect-1 butn">APPOINTMENT
+                                            NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center item">
+                                <div class="col-md-8 col-md-offset-2 col-sm-12">
+                                    <div class="big-tagline text-center">
+                                        <h2><strong>The Barber Shop</strong><br>Where Style Meets Convenience</h2>
+                                        <p class="lead">Discover effortless grooming with just a few clicks. Book your next appointment and let our skilled barbers redefine your style. From sharp cuts to classic trims, every visit is tailored to you</p>
+                                        <a href="/login"
+                                            class="btn btn-light btn-radius btn-brd grd1 effect-1 butn">APPOINTMENT
+                                            NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+
+            <div class="section wb">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <div class="message-box">
+                                <h4>About</h4>
+                                <h2>Welcome to SMBarber</h2>
+                                <p class="lead">At SMBarber, we believe a great haircut is more than just a style—it's a statement.
+                                    Step into a space where precision meets passion,and every visit is a personalized journey to looking and feeling your best.</p>
+
+                                <p> Experience the perfect blend of timeless techniques and modern trends in an environment designed for relaxation and rejuvenation.
+                                    Let our skilled barbers transform your grooming routine into a journey of self-care and sophistication.
+                                    Welcome to SMBarber—where your style becomes our mission.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="hr1">
+
+                    <div class="row" id="jokes">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <div class="message-box">
+                                <h2>Daily Jokes</h2>
+                                <h4>Read our funny daily jokes</h4>
+                                <ul th:if="${jokes}" th:each="joke : ${jokes}">
+                                    <li th:text="${joke.joke}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="hr1">
+
+                    <div class="row text-center">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="service-widget">
+                                <div class="post-media wow fadeIn">
+                                    <a href="/uploads/barber_01.jpg" data-rel="prettyPhoto[gal]"
+                                        class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                                    <img src="/uploads/barber_01.jpg" alt="" class="img-responsive img-rounded">
+                                </div>
+                                <h3>Show us Your Graft Style</h3>
+                                <p>Your style tells your story. At SMBarber, we’re here to help you showcase it.
+                                    Whether it’s bold, classic, or modern, our barbers craft every detail to bring your vision to life.
+                                    Let’s make your style unforgettable.</p>
+                            </div><!-- end service -->
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="service-widget">
+                                <div class="post-media wow fadeIn">
+                                    <a href="/uploads/barber_02.jpg" data-rel="prettyPhoto[gal]"
+                                        class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                                    <img src="/uploads/barber_02.jpg" alt="" class="img-responsive img-rounded">
+                                </div>
+                                <h3>Outstanding Barber Shop</h3>
+                                <p>Step into a space where tradition meets innovation. From sharp fades to clean cuts, every service at SMBarber is a promise of excellence.
+                                    Relax, unwind, and leave feeling your best—it’s more than just a haircut; it’s an experience. </p>
+                            </div><!-- end service -->
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="service-widget">
+                                <div class="post-media wow fadeIn">
+                                    <a href="/uploads/barber_03.jpg" data-rel="prettyPhoto[gal]"
+                                        class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                                    <img src="/uploads/barber_03.jpg" alt="" class="img-responsive img-rounded">
+                                </div>
+                                <h3>The Barber Materials</h3>
+                                <p>We believe precision starts with quality. That’s why SMBarber uses only the finest tools and products to ensure every cut and shave is flawless.
+                                    Your look deserves the best, and we deliver nothing less.</p>
+                            </div><!-- end service -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyrights">
+                <div class="container-fluid">
+                    <div class="footer-distributed">
+                        <div class="footer-left">
+                            <p class="footer-links">
+                                <a href="/">Home</a>
+                                <a href="/dashboard">Dashboard</a>
+                                <a href="/login">Login</a>
+                                <a href="#about">About</a>
+                                <a href="/hair-styles">Hair Gallery</a>
+                            </p>
+                            <p class="footer-company-name">All Rights Reserved. &copy; 2024 <a href="#"></a>
+                        </div>
+
+                        <div class="footer-right">
+                            <form method="get" action="#">
+                                <input placeholder="Subscribe our newsletter.." name="search">
+                                <i class="fa fa-envelope-o"></i>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
+
+    
+    <script th:src="@{/js/all.js}"></script>
+    <script th:src="@{/js/responsive-tabs.js}"></script>
+   
+    <script th:src="@{/js/custom.js}"></script>
+
+    
+    <script>
+        (function ($) {
+            "use strict";
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            smoothScroll.init({
+                selector: '[data-scroll]', 
+                selectorHeader: null, 
+                speed: 500, 
+                easing: 'easeInOutCubic', 
+                offset: 0, 
+                callback: function (anchor, toggle) { } 
+            });
+        })(jQuery);
+    </script>
+
+</body>
+
+</html>

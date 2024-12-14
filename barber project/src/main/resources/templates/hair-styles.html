@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Barber Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<style>
+    a.nolink {
+        text-decoration: none;
+        color: inherit;
+    }
+</style>
+
+<body>
+    <header class="bg-dark text-white p-3 text-center">
+        <a href="/" class="nolink">
+            <h1>Welcome to the Barber Management System</h1>
+        </a>
+    </header>
+
+    <main class="container-fluid mt-4">
+        <h2 class="mb-4 text-center">Explore Our Hair Styles</h2>
+        <div class="w-100 row p-1 m-0">
+            <div class="col-md-3 p-1" th:each="photo : ${hairStylePhotos}">
+                <div class="card h-100">
+                    <img th:src="${photo.url}" alt="${photo.description}" class="card-img-top img-fluid">
+                    <div class="card-body">
+                        <p th:text="${photo.description}" class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Barber Management System. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
